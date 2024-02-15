@@ -60,6 +60,12 @@
             <version>5.0.17.RELEASE</version>
         </dependency>
 <!--        <dependency>-->
+<!--            <groupId>javax.servlet</groupId>-->
+<!--            <artifactId>javax.servlet-api</artifactId>-->
+<!--            <version>4.0.1</version> &lt;!&ndash; Use the latest version available &ndash;&gt;-->
+<!--            <scope>provided</scope>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
 <!--            <groupId>org.springframework</groupId>-->
 <!--            <artifactId>spring-messaging</artifactId>-->
 <!--            <version>6.1.3</version>-->
