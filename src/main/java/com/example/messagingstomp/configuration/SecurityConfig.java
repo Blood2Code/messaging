@@ -19,6 +19,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
+                .antMatchers("/websocket", "/send/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic();
@@ -30,6 +31,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
         manager.createUser(User.withUsername("user").password(passwordEncoder().encode("123")).roles("USER").build());
         manager.createUser(User.withUsername("umar").password(passwordEncoder().encode("123")).roles("USER").build());
+        manager.createUser(User.withUsername("admin").password(passwordEncoder().encode("123")).roles("ADMIN").build());
         return manager;
     }
 

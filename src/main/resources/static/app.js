@@ -1,10 +1,21 @@
+
 const stompClient = new StompJs.Client({
-    brokerURL: 'ws://192.168.68.132:8080/websocket'
+    brokerURL: 'ws://192.168.68.125:8080/websocket'
 });
+
+function getUsernameFromFrame(frameString) {
+    const lines = frameString.split('\n');
+    for (const line of lines) {
+        if (line.startsWith('user-name:')) {
+            return line.slice('user-name:'.length).trim();
+        }
+    }
+    return null;
+}
 
 stompClient.onConnect = (frame) => {
     setConnected(true);
-    console.log('Connected: ' + frame);
+    console.log('Connected: ' + frame.toString());
     stompClient.subscribe('/topic/greetings', (greeting) => {
         showGreeting(JSON.parse(greeting.body).content);
     });
