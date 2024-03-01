@@ -1,22 +1,22 @@
 package com.example.messagingstomp.controller;
 
-import org.springframework.messaging.simp.SimpMessagingTemplate;
+import com.example.messagingstomp.entity.Greeting;
+import com.example.messagingstomp.entity.ProvideMessage;
+import com.example.messagingstomp.component.EventProvider;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequiredArgsConstructor
 public class SendController {
 
-    private final SimpMessagingTemplate simpMessagingTemplate;
+    private final EventProvider messageService;
 
-    public SendController(SimpMessagingTemplate simpMessagingTemplate) {
-        this.simpMessagingTemplate = simpMessagingTemplate;
-    }
-    @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("/sendTo/{username}")
-    public void sendMessage(@PathVariable("username") String username) {
-        String destination = "/topic/greetings",
-                message = "Test Umar";
-        simpMessagingTemplate.convertAndSendToUser(username, destination, message);
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    @GetMapping("/sendTo")
+    public void sendMessage(@RequestBody ProvideMessage provideMessage) {
+        messageService.sendMessageToUser(provideMessage.getUsername(),
+                new Greeting("Hi " + provideMessage.getUsername() + "," + provideMessage.getMessage()));
     }
 }
